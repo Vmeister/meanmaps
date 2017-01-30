@@ -3,7 +3,7 @@ var GEOJSON = require('mongoose-geojson-schema');
 var Schema = mongoose.Schema;
 
 var MapsSchema = new Schema({
-    _id: Number,
+    id: Number,
     any: mongoose.Schema.Types.GeoJSON,
     point: mongoose.Schema.Types.Point,
     multipoint: mongoose.Schema.Types.MultiPoint,
@@ -20,4 +20,3 @@ var MapsSchema = new Schema({
 var Map = mongoose.model('Map', MapsSchema);
 
 module.exports = Map;
-

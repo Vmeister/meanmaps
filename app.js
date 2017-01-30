@@ -49,13 +49,22 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
+db.collection('maps').remove();
+
 request.get('http://data.hslhrt.opendata.arcgis.com/datasets/8baa56336dc74a279c0f0a32998577d4_0.geojson',
     function(error, response, body) {
       if (!error && response.statusCode == 200) {
         var maplayer = JSON.parse(body);
-        db.collection('maps').save(maplayer);
+        db.collection('maps').insert(maplayer);
       }
     });
 
+request.get('http://data.hslhrt.opendata.arcgis.com/datasets/34a05a35667e42bab70aea78b80165f0_0.geojson',
+    function(error, response, body) {
+        if (!error && response.statusCode == 200) {
+            var maplayer = JSON.parse(body);
+            db.collection('maps').insert(maplayer);
+        }
+    });
 
 module.exports = app;

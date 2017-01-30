@@ -67,4 +67,13 @@ request.get('http://data.hslhrt.opendata.arcgis.com/datasets/34a05a35667e42bab70
         }
     });
 
+request.get('http://data.hslhrt.opendata.arcgis.com/datasets/454915a7b25e4a7eac99383c908dc56f_0.geojson',
+    function(error, response, body) {
+        if (!error && response.statusCode == 200) {
+            var maplayer = JSON.parse(body);
+            db.collection('maps').insert(maplayer);
+        }
+    });
+
+
 module.exports = app;

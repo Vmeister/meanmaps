@@ -21,8 +21,7 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
-// uncomment after placing your favicon in /public
-//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+app.use(favicon(path.join(__dirname, 'public/favicon/', 'map.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -49,13 +48,19 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
+//Clearing the database after possible server restart
 db.collection('maps').remove();
 
+//Database inserts with added documentName-fields
 request.get('http://data.hslhrt.opendata.arcgis.com/datasets/8baa56336dc74a279c0f0a32998577d4_0.geojson',
     function(error, response, body) {
       if (!error && response.statusCode == 200) {
-        var maplayer = JSON.parse(body);
-        db.collection('maps').insert(maplayer);
+            var maplayer = JSON.parse(body);
+            Map.collection.insert(maplayer, function(err) {
+            var newId = maplayer._id;
+            Map.findOneAndUpdate({_id: newId}, {$set:{'documentName': "HSL:n myyntipisteet" }}).exec(function(err, doc) {
+            });
+        });
       }
     });
 
@@ -63,7 +68,11 @@ request.get('http://data.hslhrt.opendata.arcgis.com/datasets/34a05a35667e42bab70
     function(error, response, body) {
         if (!error && response.statusCode == 200) {
             var maplayer = JSON.parse(body);
-            db.collection('maps').insert(maplayer);
+            Map.collection.insert(maplayer, function(err) {
+                var newId = maplayer._id;
+                Map.findOneAndUpdate({_id: newId}, {$set:{'documentName': "HSL:n terminaalit" }}).exec(function(err, doc) {
+                });
+            });
         }
     });
 
@@ -71,7 +80,11 @@ request.get('http://data.hslhrt.opendata.arcgis.com/datasets/454915a7b25e4a7eac9
     function(error, response, body) {
         if (!error && response.statusCode == 200) {
             var maplayer = JSON.parse(body);
-            db.collection('maps').insert(maplayer);
+            Map.collection.insert(maplayer, function(err) {
+                var newId = maplayer._id;
+                Map.findOneAndUpdate({_id: newId}, {$set:{'documentName': "HSL:n taksavyöhykkeet" }}).exec(function(err, doc) {
+                });
+            });
         }
     });
 

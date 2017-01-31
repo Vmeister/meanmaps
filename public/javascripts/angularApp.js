@@ -9,13 +9,14 @@ app.controller('MapController', [ '$scope', '$http', 'leafletData', function($sc
         }
     });
     $scope.mapOptions = [];
-    $http.get("/maplayers").then(function(response) {
+    $http.get("/maps").then(function(response) {
         $scope.mapOptions = eval(response.data);
     });
 
-    $scope.selection = function(id) {
+    $scope.selection = function(map) {
         layerGroup.clearLayers();
-
+        var parts = map.split(" : ");
+        var id = parts[0];
         $http.get("/maplayers/" + id).then(function(response) {
             var mapLayer = new L.geoJson();
             $(response.data.features).each(function(key, feature) {
@@ -27,7 +28,7 @@ app.controller('MapController', [ '$scope', '$http', 'leafletData', function($sc
                 for (var prop in layer.feature.properties) {
                     popup.push(prop + ": " + layer.feature.properties[prop]);
                 }
-                mapLayer.bindPopup(popup.join("<br />"));
+                layer.bindPopup(popup.join("<br />"));
             });
             leafletData.getMap('map').then(function(map) {
                 layerGroup.addTo(map);

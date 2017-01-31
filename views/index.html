@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="stylesheets/style.css">
 </head>
 <body>
+<h1>MEAN Maps Project</h1>
 <div ng-app="meanMaps" ng-controller="MapController">
     <leaflet id="map" defaults="defaults"></leaflet>
     <select ng-model="maps" ng-options="x for x in mapOptions" ng-change="selection(maps)"></select>

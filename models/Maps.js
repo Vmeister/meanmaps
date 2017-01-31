@@ -4,6 +4,7 @@ var Schema = mongoose.Schema;
 
 var MapsSchema = new Schema({
     id: Number,
+    documentName: String,
     any: mongoose.Schema.Types.GeoJSON,
     point: mongoose.Schema.Types.Point,
     multipoint: mongoose.Schema.Types.MultiPoint,
